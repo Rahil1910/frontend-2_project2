@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <p>(click on form to activate onchange function)</p>
+        <form>
+            <label for="email">Email</label>
+            <input class="input" onchange="inputCheck()" id="email" type="email" placeholder="Example@email.com">
+            <label class="red">Make sure email is more than 3 characters and has @ and a.</label>
+            <label id="pass_id" for="pass">Password</label>
+            <input class="input" onchange="inputCheck()" id="pass" type="password" placeholder="Your Password">
+            <label class="red" id="green">Make sure password is more than 8 characters.</label>
+            <button id="btn" type="submit" onclick="buttonClicked()" disabled>Submit</button>
+        </form>
+    </div>
+    <script>
+        let e_ch = false;
+        let p_ch = false;
+        const submitButton = document.getElementById('btn');
+
+        function emailValid(email){
+            if(email.includes("@") && email.includes(".")){
+                let part = email.split("@");
+                if(part[0].length > 3){
+                    if(part[1].includes(".")){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        function passValid(pass){
+            if(pass.length >= 8){
+                return true;
+            }
+            return false;
+        }
+        function inputCheck(){
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            const red_label = document.getElementsByClassName('red');
+            const green = document.getElementById('green');
+            e_ch = emailValid(email);
+            p_ch = passValid(pass);
+
+            if(e_ch && p_ch){
+                let g = "All good to go!"
+                red_label[0].innerText = "";
+                red_label[1].innerText = "";
+                green.style.color = "green";
+                green.innerText = g;
+            }
+
+            if (e_ch && p_ch) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        function buttonClicked(){
+            const userConfirm = confirm("Are you sure you want to proceed ?");
+            if(userConfirm){
+                alert("successful signup!")
+            } else{
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
